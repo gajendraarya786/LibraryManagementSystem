@@ -1,6 +1,5 @@
 import java.util.*;
 
-// Abstract class (Abstraction)
 abstract class LibraryItem {
     private String title;
     private boolean isAvailable = true;
@@ -42,10 +41,10 @@ abstract class LibraryItem {
         }
     }
 
-    public abstract void displayInfo(); // Polymorphic method
+    public abstract void displayInfo();
 }
 
-// Book class (Inheritance)
+
 class Book extends LibraryItem {
     private String author;
 
@@ -60,12 +59,16 @@ class Book extends LibraryItem {
 
     @Override
     public void displayInfo() {
-        String status = isAvailable() ? "(Available)" : "(Issued to: " + getIssuedTo() + ")";
-        System.out.println("- " + getTitle() + " by " + author + " " + status);
+        System.out.print("- " + getTitle() + " by " + getAuthor());
+        if (isAvailable()) {
+            System.out.println(" (Available)");
+        } else {
+            System.out.println(" (Issued to: " + getIssuedTo() + ")");
+        }
     }
 }
 
-// User class (Encapsulation)
+
 class User {
     private String name;
 
@@ -79,18 +82,23 @@ class User {
 
     public void issueItem(Library library, String title) {
         LibraryItem item = library.findItem(title);
-        if (item != null) item.issue(name);
-        else System.out.println("Item not found.");
+        if (item != null) {
+            item.issue(name);
+        } else {
+            System.out.println("Item not found.");
+        }
     }
-
     public void returnItem(Library library, String title) {
         LibraryItem item = library.findItem(title);
-        if (item != null) item.returnItem(name);
-        else System.out.println("Item not found.");
+        if (item != null) {
+            item.returnItem(name);
+        } else {
+            System.out.println("Item not found.");
+        }
     }
+    
 }
 
-// Library class (Manages items and users)
 class Library {
     private List<LibraryItem> items = new ArrayList<>();
     private Map<String, User> users = new HashMap<>();
@@ -118,13 +126,13 @@ class Library {
     }
 }
 
-// Main class
+
 public class LibraryManagementSystem {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Library library = new Library();
 
-        // Add books
+     
         library.addItem(new Book("The Alchemist", "Paulo Coelho"));
         library.addItem(new Book("Harry Potter", "J.K. Rowling"));
         library.addItem(new Book("1984", "George Orwell"));
@@ -138,7 +146,7 @@ public class LibraryManagementSystem {
             System.out.println("4. Exit");
             System.out.print("Enter choice: ");
             int choice = scanner.nextInt();
-            scanner.nextLine(); // consume newline
+            scanner.nextLine(); 
 
             switch (choice) {
                 case 1 -> library.displayItems();
